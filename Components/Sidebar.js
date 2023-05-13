@@ -78,7 +78,7 @@ function Sidebar() {
 function SidebarLink({ text, Icon }) {
   return (
     <li className="hoverAnimation xl:justify-start justify-center items-center text-xl flex mb-3 space-x-3">
-      <Icon className="h-7" />
+      <Icon style={{ height: 1.75 + "rem" }} />
       <span className="hidden xl:inline">{text}</span>
     </li>
   );
