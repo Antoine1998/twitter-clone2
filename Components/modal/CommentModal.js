@@ -13,11 +13,15 @@ import {
 import { doc, arrayUnion, updateDoc } from "firebase/firestore";
 import { db } from "@/firebase";
 import { useState } from "react";
+import { useRouter } from "next/router";
 
 function CommentModal() {
+  const router = useRouter();
   const isOpen = useSelector((state) => state.modals.CommentModalOpen);
   // const userImg = useSelector((state) => state.user.photoUrl);
   const tweetDetails = useSelector((state) => state.modals.commentTweetDetails);
+  console.log(tweetDetails);
+
   // Retrieve the user details that is currently logged in
   //to be included it in the comment modal under the tweet selected
   const user = useSelector((state) => state.user);
@@ -28,7 +32,7 @@ function CommentModal() {
   const [comment, setComment] = useState("");
 
   async function sendComment() {
-    const docRef = doc(db, "posts", tweetDetails.id)
+    const docRef = doc(db, "posts", tweetDetails.id);
     const commentDetails = {
       username: user.username,
       name: user.name,
@@ -39,6 +43,12 @@ function CommentModal() {
       // the comment will be added to firebase as an element in an array
       comments: arrayUnion(commentDetails),
     });
+
+    // close the modal
+    dispatch(closeCommentModal());
+
+    // navigate to comment page after sending a comment
+    router.push("/" + tweetDetails.id);
   }
 
   return (

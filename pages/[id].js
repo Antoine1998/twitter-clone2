@@ -15,12 +15,13 @@ export async function getServerSideProps(context) {
   const docSnap = await getDoc(docRef);
   const data = docSnap.data();
   const formattedData = {
-    username: data.username,
-    name: data.name,
-    photoUrl: data.tweet,
-    text: data.tweet,
-    comments: data.comments || null,
-    timestamp: JSON.stringify(data.timestamp.toDate()),
+    username: data?.username,
+    name: data?.name,
+    photoUrl: data?.photoUrl,
+    text: data?.tweet,
+    comments: data?.comments || null,
+    timestamp: JSON.stringify(data?.timestamp.toDate()),
+    image: data?.image || null
   };
 
   return {
@@ -71,6 +72,12 @@ function CommentPage({ tweetData }) {
                   <Moment fromNow>{JSON.parse(tweetData.timestamp)}</Moment>
                 </div>
                 <span className="text-2xl">{tweetData.text}</span>
+                {tweetData.image && (
+                  <img
+                    className="object-cover rounded-md mt-3 max-h-80 border border-gray-700"
+                    src={tweetData.image}
+                  />
+                )}
               </div>
             </div>
           </div>
@@ -104,9 +111,8 @@ function CommentPage({ tweetData }) {
                   <div className="text-gray-500 flex items-center space-x-2 mb-1">
                     <h1 className="text-white font-bold">{comment.name}</h1>
                     <span>@{comment.username}</span>
-                    <div className="h-1 w-1 bg-gray-500 rounded-full"></div>
                   </div>
-                  <span className="text-2xl">{comment.comment}</span>
+                  <span>{comment.comment}</span>
                 </div>
               </div>
             </div>
