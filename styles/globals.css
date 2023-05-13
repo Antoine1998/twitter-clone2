@@ -1,8 +1,10 @@
+@import "./empty.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-body{
+body {
   background-color: black;
 }
 
